@@ -14,7 +14,7 @@ class DefaultAppContainer : AppContainer {
     private val baseUrl = "https://www.googleapis.com/books/v1/"
 
     private val jsonConfig = Json {
-        ignoreUnknownKeys = true // Esto evita que la app truene si Google manda datos extra
+        ignoreUnknownKeys = true
         coerceInputValues = true
     }
 

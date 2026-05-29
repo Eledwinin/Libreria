@@ -19,7 +19,7 @@ import java.io.IOException
 
 sealed interface BibliotecaUiState {
     data class Success(val libros: List<Libro>) : BibliotecaUiState
-    object Error : BibliotecaUiState
+    data class Error(val mensaje: String) : BibliotecaUiState // <--- Acepta un mensaje
     object Loading : BibliotecaUiState
 }
 
@@ -29,22 +29,24 @@ class BibliotecaViewModel(private val librosRepository: LibrosRepository) : View
         private set
 
     init {
-        getLibrosDatos("android")
+        getLibrosDatos("a")
     }
 
     fun getLibrosDatos(query: String) {
+
+        val busquedaReal = if (query.isBlank()) "a" else query
+
         viewModelScope.launch {
             bibliotecaUiState = BibliotecaUiState.Loading
             try {
-                val lista = librosRepository.getLibros(query)
-
-                bibliotecaUiState = BibliotecaUiState.Success(lista)
-            } catch (e: IOException) {
-                e.printStackTrace()
-                bibliotecaUiState = BibliotecaUiState.Error
-            } catch (e: HttpException) {
-                e.printStackTrace()
-                bibliotecaUiState = BibliotecaUiState.Error
+                val listaLibros = librosRepository.getLibros(busquedaReal)
+                if (listaLibros.isEmpty()) {
+                    bibliotecaUiState = BibliotecaUiState.Error("No se encontraron libros para: $query")
+                } else {
+                    bibliotecaUiState = BibliotecaUiState.Success(listaLibros)
+                }
+            } catch (e: Exception) {
+                bibliotecaUiState = BibliotecaUiState.Error("Error: ${e.message}")
             }
         }
     }

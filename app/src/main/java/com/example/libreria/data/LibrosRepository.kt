@@ -2,9 +2,9 @@
 package com.example.libreria.data
 
 import com.example.libreria.model.Libro
+import com.example.libreria.model.RespuestaBusqueda
 
 interface LibrosRepository {
 
-    //esto dice que quien use esa funcion tiene que traer una lista de libros completa
-    suspend fun getLibros (query: String): List<Libro>
+    suspend fun getLibros(query: String): List<Libro>
 }
