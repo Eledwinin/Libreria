@@ -33,7 +33,5 @@ class DefaultAppContainer : AppContainer {
         retrofit.create(LibrosApiService::class.java)
     }
 
-    override val librosRepository: LibrosRepository by lazy {
-        NetworkLibrosRepository(retrofitService)
-    }
+    override val librosRepository: LibrosRepository = NetworkLibrosRepository()
 }

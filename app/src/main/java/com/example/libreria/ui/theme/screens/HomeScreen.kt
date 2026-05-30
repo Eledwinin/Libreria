@@ -141,7 +141,7 @@ fun TarjetaLibro(libro: Libro, modifier: Modifier = Modifier) {
 
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(libro.imagenUrl)
+                    .data(libro.imagenUrl.replace("http://", "https://"))
                     .crossfade(true)
                     .build(),
                 contentDescription = libro.titulo,
